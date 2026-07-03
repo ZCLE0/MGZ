@@ -6,8 +6,7 @@
     <title>Thuong Lam - The Heritage Issue</title>
     <style>
         body { 
-            /* Đổi nền sang màu xám cực nhạt (#f4f4f4) để tôn màu trắng của giấy, giúp bỏ hoàn toàn viền (outline) */
-            background-color: #f4f4f4; 
+            background-color: #f4f4f4; /* Nền xám nhạt để tôn giấy trắng */
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -18,10 +17,11 @@
         
         .flip-book { 
             display: none; 
-            /* Bóng đổ tổng thể tĩnh, siêu nhẹ để cuốn sách tệp vào nền */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08); 
-            /* Chìa khóa để tính năng autoCenter trượt mượt mà từ giữa ra 2 bên */
-            transition: transform 0.5s ease-in-out; 
+            /* CHÌA KHÓA CỦA VẤN ĐỀ: Dùng drop-shadow thay vì box-shadow. 
+               Bóng sẽ chỉ ôm sát trang giấy đang hiển thị. 
+               Khoảng trống bên trái khi đóng sách sẽ hoàn toàn không có bóng mờ nào! */
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.12)); 
+            transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1); /* Trượt siêu mượt */
         }
         
         .page { 
@@ -33,8 +33,7 @@
             width: 100%; 
             height: 100%; 
             object-fit: cover; 
-            /* display: block triệt tiêu hoàn toàn khoảng trống 1px gây ra viền đen ở mép ảnh */
-            display: block; 
+            display: block; /* Triệt tiêu hoàn toàn đường viền (outline) đen */
             pointer-events: none; 
         }
     </style>
@@ -76,14 +75,12 @@
                 height: 600, 
                 size: "fixed", 
                 
-                // 1 & 2. Xử lý Bìa giữa và Trượt mượt
-                showCover: true,     
-                usePortrait: false,  
-                autoCenter: true,    
-
-                // 3. Xử lý độ Matte (Lì) và bóng mờ trang lỗi
-                drawShadow: true,    
-                maxShadowOpacity: 0.15 // Ép bóng nội tại của JS xuống mức cực thấp để tạo chất liệu giấy matte
+                showCover: true,     // Bật chế độ Bìa cứng (chỉ 1 trang)
+                usePortrait: false,  // Bắt buộc hiển thị dạng 2 trang mở rộng bên trong
+                autoCenter: true,    // Tự trượt ra giữa màn hình
+                
+                drawShadow: true,    // Bật bóng mờ gáy sách
+                maxShadowOpacity: 0.15 // Ép bóng nội tại nhạt xuống để tạo bề mặt lì (matte), không bị glossy rẻ tiền
             });
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));

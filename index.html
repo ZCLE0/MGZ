@@ -6,13 +6,28 @@
     <title>Thuong Lam - The Heritage Issue</title>
     <style>
         body { 
-            background-color: #f4f4f4; 
+            background-color: #ffffff; /* Nền trắng gốc */
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
             margin: 0; 
             overflow: hidden;
+        }
+
+        /* --- LỚP NỀN MỜ CÓ CHIỀU SÂU --- */
+        .dynamic-bg {
+            position: fixed;
+            top: -10%; left: -10%; 
+            width: 120%; height: 120%; /* Phóng to ra xíu để không bị lộ viền khi làm mờ */
+            background-image: url('Zine1.21_FINAL_page-0001.jpg'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(40px); /* Làm mờ mạnh tạo hiệu ứng ảo */
+            opacity: 0.15; /* Độ mờ 15% đè lên nền trắng */
+            z-index: -1;
+            transition: opacity 0.4s ease-in-out; /* Thời gian fade mượt mà */
+            transform: translateZ(0); /* Tăng tốc phần cứng cho iPad để không bị giật */
         }
         
         .flip-book { 
@@ -23,7 +38,7 @@
             background-color: white; 
             overflow: hidden; 
             box-shadow: 0 0 15px rgba(0,0,0,0.08); 
-            position: relative; /* Bắt buộc phải có để bóng gáy sách hiển thị đúng vị trí */
+            position: relative; 
         }
         
         .page img { 
@@ -34,34 +49,22 @@
             pointer-events: none; 
         }
 
-        /* --- BÓNG GÁY SÁCH (CHỈ ÁP DỤNG KHI MỞ SÁCH) --- */
-        
-        /* Trang bên TRÁI (số chẵn): Đổ bóng sang phải, BỎ QUA bìa sau cùng */
+        /* --- BÓNG GÁY SÁCH CỐ ĐỊNH --- */
         .page:nth-child(even):not(:last-child)::after {
-            content: "";
-            position: absolute;
-            top: 0; right: 0;
-            width: 45px; 
-            height: 100%;
+            content: ""; position: absolute; top: 0; right: 0; width: 45px; height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.12), transparent);
-            pointer-events: none;
-            z-index: 10;
+            pointer-events: none; z-index: 10;
         }
-        
-        /* Trang bên PHẢI (số lẻ): Đổ bóng sang trái, BỎ QUA bìa trước (Trang 1) */
         .page:nth-child(odd):not(:first-child)::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 45px; 
-            height: 100%;
+            content: ""; position: absolute; top: 0; left: 0; width: 45px; height: 100%;
             background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
-            pointer-events: none;
-            z-index: 10;
+            pointer-events: none; z-index: 10;
         }
     </style>
 </head>
 <body>
+
+    <div class="dynamic-bg" id="bg-layer"></div>
 
     <div class="flip-book" id="magazine">
         <div class="page"><img src="Zine1.21_FINAL_page-0001.jpg" alt="Trang 1"></div>
@@ -108,6 +111,25 @@
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));
             document.getElementById('magazine').style.display = 'block';
+
+            // JS XỬ LÝ ĐỔI NỀN KHI LẬT TRANG
+            const bgLayer = document.getElementById('bg-layer');
+            
+            pageFlip.on('flip', (e) => {
+                // Lấy số thứ tự của trang đang được lật tới (e.data) và format thành 0001, 0002...
+                let pageIndex = e.data + 1;
+                let pageNumber = pageIndex.toString().padStart(4, '0');
+                let newBg = `url('Zine1.21_FINAL_page-${pageNumber}.jpg')`;
+                
+                // Mờ ảnh hiện tại đi
+                bgLayer.style.opacity = 0; 
+                
+                // Đợi 250ms cho ảnh mờ hẳn rồi mới tráo ảnh mới và sáng lên lại
+                setTimeout(() => {
+                    bgLayer.style.backgroundImage = newBg;
+                    bgLayer.style.opacity = 0.15; // Phục hồi độ mờ 15%
+                }, 250);
+            });
         });
     </script>
 </body>

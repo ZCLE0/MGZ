@@ -17,14 +17,13 @@
         
         .flip-book { 
             display: none; 
-            /* Đã xóa filter và box-shadow ở khung ngoài để triệt tiêu 100% bóng mờ trang thừa */
         }
         
         .page { 
             background-color: white; 
             overflow: hidden; 
-            /* Đổ bóng bám sát chính xác vào từng viền giấy có thật */
             box-shadow: 0 0 15px rgba(0,0,0,0.08); 
+            position: relative; /* Bắt buộc phải có để bóng gáy sách hiển thị đúng vị trí */
         }
         
         .page img { 
@@ -33,6 +32,32 @@
             object-fit: cover; 
             display: block; 
             pointer-events: none; 
+        }
+
+        /* --- BÓNG GÁY SÁCH (CHỈ ÁP DỤNG KHI MỞ SÁCH) --- */
+        
+        /* Trang bên TRÁI (số chẵn): Đổ bóng sang phải, BỎ QUA bìa sau cùng */
+        .page:nth-child(even):not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 45px; 
+            height: 100%;
+            background: linear-gradient(to left, rgba(0,0,0,0.12), transparent);
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        /* Trang bên PHẢI (số lẻ): Đổ bóng sang trái, BỎ QUA bìa trước (Trang 1) */
+        .page:nth-child(odd):not(:first-child)::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 45px; 
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
+            pointer-events: none;
+            z-index: 10;
         }
     </style>
 </head>
@@ -69,16 +94,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pageFlip = new St.PageFlip(document.getElementById('magazine'), {
-                width: 600,   // Đã phóng to magazine
-                height: 800,  // Đã phóng to magazine
+                width: 600,   
+                height: 800,  
                 size: "fixed", 
                 
-                showCover: true,     // Đảm bảo trang 1 và 24 là bìa đơn
-                usePortrait: false,  // Ép hiển thị 2 trang khi mở
-                autoCenter: true,    // Chịu trách nhiệm giữ bìa ở giữa và slide sang trái khi mở
+                showCover: true,     
+                usePortrait: false,  
+                autoCenter: true,    
                 
                 drawShadow: true,    
-                maxShadowOpacity: 0.1 // Shading lì (matte), không bị gắt
+                maxShadowOpacity: 0.1 
             });
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));

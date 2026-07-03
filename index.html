@@ -6,28 +6,29 @@
     <title>Thuong Lam - The Heritage Issue</title>
     <style>
         body { 
-            background-color: #ffffff; /* Nền trắng gốc */
+            background-color: #ffffff; /* Nền gốc màu trắng */
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
             margin: 0; 
             overflow: hidden;
+            position: relative;
         }
 
-        /* --- LỚP NỀN MỜ CÓ CHIỀU SÂU --- */
-        .dynamic-bg {
-            position: fixed;
-            top: -10%; left: -10%; 
-            width: 120%; height: 120%; /* Phóng to ra xíu để không bị lộ viền khi làm mờ */
-            background-image: url('Zine1.21_FINAL_page-0001.jpg'); 
+        /* --- LỚP NỀN DYNAMIC MỜ --- */
+        #dynamic-bg {
+            position: absolute;
+            /* Kéo giãn ra ngoài 5% để giấu đi phần viền bị lỗi của hiệu ứng Blur */
+            top: -5%; left: -5%; width: 110%; height: 110%; 
+            background-image: url('Zine1.21_FINAL_page-0001.jpg');
             background-size: cover;
             background-position: center;
-            filter: blur(40px); /* Làm mờ mạnh tạo hiệu ứng ảo */
-            opacity: 0.15; /* Độ mờ 15% đè lên nền trắng */
-            z-index: -1;
-            transition: opacity 0.4s ease-in-out; /* Thời gian fade mượt mà */
-            transform: translateZ(0); /* Tăng tốc phần cứng cho iPad để không bị giật */
+            opacity: 0.18; /* Độ trong suốt ~20% */
+            filter: blur(18px); /* Gaussian Blur */
+            z-index: -1; /* Luôn nằm dưới cùng */
+            pointer-events: none; /* Không cản trở thao tác lật sách */
+            transition: background-image 0.6s ease-in-out; /* Hiệu ứng Fade mượt khi đổi ảnh */
         }
         
         .flip-book { 
@@ -49,22 +50,33 @@
             pointer-events: none; 
         }
 
-        /* --- BÓNG GÁY SÁCH CỐ ĐỊNH --- */
+        /* --- BÓNG GÁY SÁCH (CHỈ ÁP DỤNG KHI MỞ SÁCH) --- */
         .page:nth-child(even):not(:last-child)::after {
-            content: ""; position: absolute; top: 0; right: 0; width: 45px; height: 100%;
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 45px; 
+            height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.12), transparent);
-            pointer-events: none; z-index: 10;
+            pointer-events: none;
+            z-index: 10;
         }
+        
         .page:nth-child(odd):not(:first-child)::after {
-            content: ""; position: absolute; top: 0; left: 0; width: 45px; height: 100%;
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 45px; 
+            height: 100%;
             background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
-            pointer-events: none; z-index: 10;
+            pointer-events: none;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <div class="dynamic-bg" id="bg-layer"></div>
+    <div id="dynamic-bg"></div>
 
     <div class="flip-book" id="magazine">
         <div class="page"><img src="Zine1.21_FINAL_page-0001.jpg" alt="Trang 1"></div>
@@ -113,22 +125,16 @@
             document.getElementById('magazine').style.display = 'block';
 
             // JS XỬ LÝ ĐỔI NỀN KHI LẬT TRANG
-            const bgLayer = document.getElementById('bg-layer');
-            
             pageFlip.on('flip', (e) => {
-                // Lấy số thứ tự của trang đang được lật tới (e.data) và format thành 0001, 0002...
-                let pageIndex = e.data + 1;
-                let pageNumber = pageIndex.toString().padStart(4, '0');
-                let newBg = `url('Zine1.21_FINAL_page-${pageNumber}.jpg')`;
+                // e.data trả về index của trang (từ 0 đến 23)
+                let pageNum = e.data + 1;
                 
-                // Mờ ảnh hiện tại đi
-                bgLayer.style.opacity = 0; 
+                // Format số trang thành chuỗi 4 chữ số (VD: 1 -> "0001", 12 -> "0012")
+                let formattedNum = pageNum.toString().padStart(4, '0');
                 
-                // Đợi 250ms cho ảnh mờ hẳn rồi mới tráo ảnh mới và sáng lên lại
-                setTimeout(() => {
-                    bgLayer.style.backgroundImage = newBg;
-                    bgLayer.style.opacity = 0.15; // Phục hồi độ mờ 15%
-                }, 250);
+                // Ghép thành tên file hoàn chỉnh và cập nhật vào style ảnh nền
+                let newBg = `url('Zine1.21_FINAL_page-${formattedNum}.jpg')`;
+                document.getElementById('dynamic-bg').style.backgroundImage = newBg;
             });
         });
     </script>

@@ -6,24 +6,29 @@
     <title>Thuong Lam - The Heritage Issue</title>
     <style>
         body { 
-            background-color: #ffffff; /* Đã đổi sang nền trắng */
+            background-color: #ffffff; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
             margin: 0; 
-            overflow: hidden; /* Tránh thanh cuộn khi lật trang */
+            overflow: hidden;
         }
         
         .flip-book { 
-            box-shadow: 0 0 30px rgba(0,0,0,0.2); /* Chỉnh lại bóng đổ cho nền trắng dịu mắt hơn */
+            /* 2. Làm phần đổ bóng bên ngoài mịn và sáng hơn rất nhiều trên nền trắng */
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.06); 
             display: none; 
-            transition: transform 0.5s ease; /* Tạo độ mượt khi sách trượt ra giữa */
+            background: transparent;
         }
         
         .page { 
-            background-color: white; 
+            background-color: #ffffff; 
             overflow: hidden; 
+            /* 3. Xóa bỏ hoàn toàn viền/outline đen của từng trang */
+            border: none !important;
+            outline: none !important;
+            position: relative;
         }
         
         .page img { 
@@ -31,10 +36,39 @@
             height: 100%; 
             object-fit: cover; 
             pointer-events: none; 
+            border: none !important;
+            outline: none !important;
+        }
+
+        /* 4. TẠO VÙNG BÓNG ĐỔ MỜ TỰ NHIÊN NẰM Ở GIỮA GÁY SÁCH KHI MỞ ĐÔI TRANG */
+        /* Trang bên trái (mặt chẵn): Đổ bóng nhẹ về phía mép phải */
+        .page:nth-child(even)::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 35px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0));
+            pointer-events: none;
+            z-index: 10;
+        }
+        /* Trang bên phải (mặt lẻ): Đổ bóng nhẹ về phía mép trái */
+        .page:nth-child(odd)::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 35px;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0));
+            pointer-events: none;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
+
     <div class="flip-book" id="magazine">
         <div class="page"><img src="page-1.jpg" alt="Trang 1"></div>
         <div class="page"><img src="page-2.jpg" alt="Trang 2"></div>
@@ -71,8 +105,8 @@
                 size: "fixed", 
                 drawShadow: true, 
                 showCover: true, 
-                usePortrait: false,
-                autoCenter: true // Tính năng tự động trượt ra giữa màn hình
+                usePortrait: true, // 1. Chuyển thành true để ép bìa hiển thị 1 trang đơn giữa màn hình, chỉ mở đôi khi lật vào trong
+                autoCenter: true 
             });
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));

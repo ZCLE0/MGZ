@@ -6,7 +6,8 @@
     <title>Thuong Lam - The Heritage Issue</title>
     <style>
         body { 
-            background-color: #ffffff; 
+            /* Đổi nền sang màu xám cực nhạt (#f4f4f4) để tôn màu trắng của giấy, giúp bỏ hoàn toàn viền (outline) */
+            background-color: #f4f4f4; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -15,55 +16,26 @@
             overflow: hidden;
         }
         
-        /* Khung chứa tạp chí - Xóa bỏ hoàn toàn bóng đổ ở đây để ẩn trang thừa */
         .flip-book { 
             display: none; 
-            background: transparent;
+            /* Bóng đổ tổng thể tĩnh, siêu nhẹ để cuốn sách tệp vào nền */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08); 
+            /* Chìa khóa để tính năng autoCenter trượt mượt mà từ giữa ra 2 bên */
+            transition: transform 0.5s ease-in-out; 
         }
         
-        /* Áp bóng đổ mịn trực tiếp lên từng trang giấy độc lập */
         .page { 
-            background-color: #ffffff; 
+            background-color: white; 
             overflow: hidden; 
-            border: none !important;
-            outline: none !important;
-            position: relative;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05); 
         }
         
         .page img { 
             width: 100%; 
             height: 100%; 
             object-fit: cover; 
+            /* display: block triệt tiêu hoàn toàn khoảng trống 1px gây ra viền đen ở mép ảnh */
+            display: block; 
             pointer-events: none; 
-            border: none !important;
-            outline: none !important;
-        }
-
-        /* Tạo độ sâu và bóng mờ tự nhiên tại gáy sách khi mở đôi */
-        /* Trang bên trái: Đổ bóng về mép phải */
-        .page:nth-child(even)::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 35px;
-            height: 100%;
-            background: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-            pointer-events: none;
-            z-index: 10;
-        }
-        /* Trang bên phải: Đổ bóng về mép trái */
-        .page:nth-child(odd)::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 35px;
-            height: 100%;
-            background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-            pointer-events: none;
-            z-index: 10;
         }
     </style>
 </head>
@@ -103,10 +75,15 @@
                 width: 450, 
                 height: 600, 
                 size: "fixed", 
-                drawShadow: true, 
-                showCover: true,     // Kích hoạt chế độ trang bìa đơn
-                usePortrait: false,  // Ép buộc hiển thị dạng 2 trang mở rộng cho các trang nội dung bên trong
-                autoCenter: true     // Tự động căn giữa trang đơn khi đóng sách và trượt cân đối khi mở sách
+                
+                // 1 & 2. Xử lý Bìa giữa và Trượt mượt
+                showCover: true,     
+                usePortrait: false,  
+                autoCenter: true,    
+
+                // 3. Xử lý độ Matte (Lì) và bóng mờ trang lỗi
+                drawShadow: true,    
+                maxShadowOpacity: 0.15 // Ép bóng nội tại của JS xuống mức cực thấp để tạo chất liệu giấy matte
             });
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));
@@ -115,4 +92,3 @@
     </script>
 </body>
 </html>
-

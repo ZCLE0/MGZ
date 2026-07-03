@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thuong Lam - The Heritage Issue</title>
+    
+    <meta property="og:title" content="Thuong Lam - The Heritage Issue">
+    <meta property="og:description" content="Interactive 3D Magazine | Tạp chí Di sản">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://[tên-tài-khoản].github.io/[tên-repo]/Zine1.21_FINAL_page-0001.jpg">
+    <meta property="og:url" content="https://[tên-tài-khoản].github.io/[tên-repo]/">
+    
     <style>
         body { 
-            background-color: #ffffff; /* Nền gốc màu trắng */
+            background-color: #ffffff; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -16,24 +23,20 @@
             position: relative;
         }
 
-        /* --- LỚP NỀN DYNAMIC MỜ --- */
         #dynamic-bg {
             position: absolute;
-            /* Kéo giãn ra ngoài 5% để giấu đi phần viền bị lỗi của hiệu ứng Blur */
             top: -5%; left: -5%; width: 110%; height: 110%; 
             background-image: url('Zine1.21_FINAL_page-0001.jpg');
             background-size: cover;
             background-position: center;
-            opacity: 0.18; /* Độ trong suốt ~20% */
-            filter: blur(18px); /* Gaussian Blur */
-            z-index: -1; /* Luôn nằm dưới cùng */
-            pointer-events: none; /* Không cản trở thao tác lật sách */
-            transition: background-image 0.6s ease-in-out; /* Hiệu ứng Fade mượt khi đổi ảnh */
+            opacity: 0.18; 
+            filter: blur(18px); 
+            z-index: -1; 
+            pointer-events: none; 
+            transition: background-image 0.6s ease-in-out; 
         }
         
-        .flip-book { 
-            display: none; 
-        }
+        .flip-book { display: none; }
         
         .page { 
             background-color: white; 
@@ -43,34 +46,22 @@
         }
         
         .page img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            display: block; 
-            pointer-events: none; 
+            width: 100%; height: 100%; 
+            object-fit: cover; display: block; pointer-events: none; 
         }
 
-        /* --- BÓNG GÁY SÁCH (CHỈ ÁP DỤNG KHI MỞ SÁCH) --- */
         .page:nth-child(even):not(:last-child)::after {
-            content: "";
-            position: absolute;
-            top: 0; right: 0;
-            width: 45px; 
-            height: 100%;
+            content: ""; position: absolute;
+            top: 0; right: 0; width: 45px; height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.12), transparent);
-            pointer-events: none;
-            z-index: 10;
+            pointer-events: none; z-index: 10;
         }
         
         .page:nth-child(odd):not(:first-child)::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 45px; 
-            height: 100%;
+            content: ""; position: absolute;
+            top: 0; left: 0; width: 45px; height: 100%;
             background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
-            pointer-events: none;
-            z-index: 10;
+            pointer-events: none; z-index: 10;
         }
     </style>
 </head>
@@ -109,30 +100,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pageFlip = new St.PageFlip(document.getElementById('magazine'), {
-                width: 600,   
-                height: 800,  
-                size: "fixed", 
-                
-                showCover: true,     
-                usePortrait: false,  
-                autoCenter: true,    
-                
-                drawShadow: true,    
-                maxShadowOpacity: 0.1 
+                width: 600, height: 800, size: "fixed", 
+                showCover: true, usePortrait: false, autoCenter: true, 
+                drawShadow: true, maxShadowOpacity: 0.1 
             });
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));
             document.getElementById('magazine').style.display = 'block';
 
-            // JS XỬ LÝ ĐỔI NỀN KHI LẬT TRANG
             pageFlip.on('flip', (e) => {
-                // e.data trả về index của trang (từ 0 đến 23)
                 let pageNum = e.data + 1;
-                
-                // Format số trang thành chuỗi 4 chữ số (VD: 1 -> "0001", 12 -> "0012")
                 let formattedNum = pageNum.toString().padStart(4, '0');
-                
-                // Ghép thành tên file hoàn chỉnh và cập nhật vào style ảnh nền
                 let newBg = `url('Zine1.21_FINAL_page-${formattedNum}.jpg')`;
                 document.getElementById('dynamic-bg').style.backgroundImage = newBg;
             });

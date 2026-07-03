@@ -6,14 +6,14 @@
     <title>Thuong Lam - The Heritage Issue</title>
     
     <meta property="og:title" content="Thuong Lam - The Heritage Issue">
-    <meta property="og:description" content="Interactive 3D Magazine | Tạp chí Di sản">
+    <meta property="og:description" content="Interactive 3D Magazine by Karie La">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://[tên-tài-khoản].github.io/[tên-repo]/Zine1.21_FINAL_page-0001.jpg">
-    <meta property="og:url" content="https://[tên-tài-khoản].github.io/[tên-repo]/">
-    
+    <meta property="og:image" content="https://[ZCLE0].github.io/[MGZ]/Zine1.21_FINAL_page-0001.jpg">
+    <meta property="og:url" content="https://[ZCLE0].github.io/[MGZ]/">
+
     <style>
         body { 
-            background-color: #ffffff; 
+            background-color: #f4f4f4; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -36,7 +36,9 @@
             transition: background-image 0.6s ease-in-out; 
         }
         
-        .flip-book { display: none; }
+        .flip-book { 
+            display: none; 
+        }
         
         .page { 
             background-color: white; 
@@ -46,22 +48,33 @@
         }
         
         .page img { 
-            width: 100%; height: 100%; 
-            object-fit: cover; display: block; pointer-events: none; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block; 
+            pointer-events: none; 
         }
 
         .page:nth-child(even):not(:last-child)::after {
-            content: ""; position: absolute;
-            top: 0; right: 0; width: 45px; height: 100%;
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 45px; 
+            height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.12), transparent);
-            pointer-events: none; z-index: 10;
+            pointer-events: none;
+            z-index: 10;
         }
         
         .page:nth-child(odd):not(:first-child)::after {
-            content: ""; position: absolute;
-            top: 0; left: 0; width: 45px; height: 100%;
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 45px; 
+            height: 100%;
             background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
-            pointer-events: none; z-index: 10;
+            pointer-events: none;
+            z-index: 10;
         }
     </style>
 </head>
@@ -100,9 +113,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pageFlip = new St.PageFlip(document.getElementById('magazine'), {
-                width: 600, height: 800, size: "fixed", 
-                showCover: true, usePortrait: false, autoCenter: true, 
-                drawShadow: true, maxShadowOpacity: 0.1 
+                width: 600,   
+                height: 800,  
+                size: "fixed", 
+                
+                showCover: true,     
+                usePortrait: false,  
+                autoCenter: true,    
+                
+                drawShadow: true,    
+                maxShadowOpacity: 0.1 
             });
             
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));

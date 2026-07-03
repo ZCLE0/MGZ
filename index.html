@@ -5,118 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thuong Lam - The Heritage Issue</title>
     <style>
-        body {
-            background-color: #2c2c2c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
-            overflow: hidden;
+        body { 
+            background-color: #ffffff; /* Đã đổi sang nền trắng */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden; /* Tránh thanh cuộn khi lật trang */
         }
         
-        /* Khung bọc xử lý hiệu ứng dịch chuyển (Slide) */
-        .book-wrapper {
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .flip-book {
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        .flip-book { 
+            box-shadow: 0 0 30px rgba(0,0,0,0.2); /* Chỉnh lại bóng đổ cho nền trắng dịu mắt hơn */
             display: none; 
+            transition: transform 0.5s ease; /* Tạo độ mượt khi sách trượt ra giữa */
         }
-
-        .page {
-            background-color: white;
-            overflow: hidden;
+        
+        .page { 
+            background-color: white; 
+            overflow: hidden; 
         }
-
-        .page img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            pointer-events: none;
+        
+        .page img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            pointer-events: none; 
         }
     </style>
 </head>
 <body>
-
-    <div class="book-wrapper" id="bookWrapper">
-        <div class="flip-book" id="magazine">
-            <div class="page"><img src="page-1.jpg" alt="Trang 1"></div>
-            <div class="page"><img src="page-2.jpg" alt="Trang 2"></div>
-            <div class="page"><img src="page-3.jpg" alt="Trang 3"></div>
-            <div class="page"><img src="page-4.jpg" alt="Trang 4"></div>
-            <div class="page"><img src="page-5.jpg" alt="Trang 5"></div>
-            <div class="page"><img src="page-6.jpg" alt="Trang 6"></div>
-            <div class="page"><img src="page-7.jpg" alt="Trang 7"></div>
-            <div class="page"><img src="page-8.jpg" alt="Trang 8"></div>
-            <div class="page"><img src="page-9.jpg" alt="Trang 9"></div>
-            <div class="page"><img src="page-10.jpg" alt="Trang 10"></div>
-            <div class="page"><img src="page-11.jpg" alt="Trang 11"></div>
-            <div class="page"><img src="page-12.jpg" alt="Trang 12"></div>
-            <div class="page"><img src="page-13.jpg" alt="Trang 13"></div>
-            <div class="page"><img src="page-14.jpg" alt="Trang 14"></div>
-            <div class="page"><img src="page-15.jpg" alt="Trang 15"></div>
-            <div class="page"><img src="page-16.jpg" alt="Trang 16"></div>
-            <div class="page"><img src="page-17.jpg" alt="Trang 17"></div>
-            <div class="page"><img src="page-18.jpg" alt="Trang 18"></div>
-            <div class="page"><img src="page-19.jpg" alt="Trang 19"></div>
-            <div class="page"><img src="page-20.jpg" alt="Trang 20"></div>
-            <div class="page"><img src="page-21.jpg" alt="Trang 21"></div>
-            <div class="page"><img src="page-22.jpg" alt="Trang 22"></div>
-            <div class="page"><img src="page-23.jpg" alt="Trang 23"></div>
-            <div class="page"><img src="page-24.jpg" alt="Trang 24"></div>
-        </div>
+    <div class="flip-book" id="magazine">
+        <div class="page"><img src="page-1.jpg" alt="Trang 1"></div>
+        <div class="page"><img src="page-2.jpg" alt="Trang 2"></div>
+        <div class="page"><img src="page-3.jpg" alt="Trang 3"></div>
+        <div class="page"><img src="page-4.jpg" alt="Trang 4"></div>
+        <div class="page"><img src="page-5.jpg" alt="Trang 5"></div>
+        <div class="page"><img src="page-6.jpg" alt="Trang 6"></div>
+        <div class="page"><img src="page-7.jpg" alt="Trang 7"></div>
+        <div class="page"><img src="page-8.jpg" alt="Trang 8"></div>
+        <div class="page"><img src="page-9.jpg" alt="Trang 9"></div>
+        <div class="page"><img src="page-10.jpg" alt="Trang 10"></div>
+        <div class="page"><img src="page-11.jpg" alt="Trang 11"></div>
+        <div class="page"><img src="page-12.jpg" alt="Trang 12"></div>
+        <div class="page"><img src="page-13.jpg" alt="Trang 13"></div>
+        <div class="page"><img src="page-14.jpg" alt="Trang 14"></div>
+        <div class="page"><img src="page-15.jpg" alt="Trang 15"></div>
+        <div class="page"><img src="page-16.jpg" alt="Trang 16"></div>
+        <div class="page"><img src="page-17.jpg" alt="Trang 17"></div>
+        <div class="page"><img src="page-18.jpg" alt="Trang 18"></div>
+        <div class="page"><img src="page-19.jpg" alt="Trang 19"></div>
+        <div class="page"><img src="page-20.jpg" alt="Trang 20"></div>
+        <div class="page"><img src="page-21.jpg" alt="Trang 21"></div>
+        <div class="page"><img src="page-22.jpg" alt="Trang 22"></div>
+        <div class="page"><img src="page-23.jpg" alt="Trang 23"></div>
+        <div class="page"><img src="page-24.jpg" alt="Trang 24"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const pageWidth = 450;  // Chiều rộng 1 trang
-            const pageHeight = 600; // Chiều cao 1 trang
-            
-            const bookWrapper = document.getElementById('bookWrapper');
-            const magazine = document.getElementById('magazine');
-
-            const pageFlip = new St.PageFlip(magazine, {
-                width: pageWidth,
-                height: pageHeight,
-                size: "fixed",
+            const pageFlip = new St.PageFlip(document.getElementById('magazine'), {
+                width: 450, 
+                height: 600, 
+                size: "fixed", 
                 drawShadow: true, 
-                showCover: true,  
-                usePortrait: false 
+                showCover: true, 
+                usePortrait: false,
+                autoCenter: true // Tính năng tự động trượt ra giữa màn hình
             });
-
+            
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-            magazine.style.display = 'block';
-
-            // Tính toán khoảng cách dịch chuyển (bằng 1/2 chiều rộng của 1 trang)
-            const shiftOffset = pageWidth / 2; 
-            const totalPages = document.querySelectorAll('.page').length;
-
-            // Thiết lập vị trí ban đầu khi vừa load (đang ở trang bìa 1)
-            bookWrapper.style.transform = `translateX(-${shiftOffset}px)`;
-
-            // Lắng nghe sự kiện lật trang để điều chỉnh vị trí
-            pageFlip.on('flip', (e) => {
-                const currentPage = e.data; // Lấy chỉ số trang hiện tại (0 đến 23)
-
-                if (currentPage === 0) {
-                    // Đang ở Bìa trước: Dịch sang trái để trang bìa nằm chính giữa màn hình
-                    bookWrapper.style.transform = `translateX(-${shiftOffset}px)`;
-                } else if (currentPage === totalPages - 1) {
-                    // Đang ở Bìa sau: Dịch sang phải để trang bìa sau nằm chính giữa màn hình
-                    bookWrapper.style.transform = `translateX(${shiftOffset}px)`;
-                } else {
-                    // Đang mở bên trong (2 trang): Trở về vị trí trung tâm hoàn hảo
-                    bookWrapper.style.transform = 'translateX(0px)';
-                }
-            });
+            document.getElementById('magazine').style.display = 'block';
         });
     </script>
 </body>
